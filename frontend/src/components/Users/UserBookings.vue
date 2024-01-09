@@ -1,0 +1,54 @@
+<template>
+  <div>
+    <UserNav />
+    <h1>Welcome to Booking page</h1>
+  </div>
+</template>
+<script>
+import UserNav from "./UserNav.vue";
+export default {
+  name: "UserBookings",
+  components: {
+    UserNav,
+  },
+};
+</script>
+<style>
+body {
+  margin: 0;
+}
+.nav {
+  height: 5rem;
+  /* background-color: #151d25; */
+  /* background-color: rgb(15, 110, 81); */
+  background: #474747;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0rem 2rem;
+}
+
+.nav-item {
+  padding: 20px;
+  font-size: 20px;
+  text-decoration: none;
+  color: rgb(253, 250, 216);
+}
+
+.nav-logout {
+  height: 3rem;
+  width: 6rem;
+  border-radius: 40px;
+  border: 1px solid #474747;
+  color: #474747;
+  background-color: rgb(253, 250, 216);
+  cursor: pointer;
+  font-size: 17px;
+}
+.nav-logout:hover {
+  background: #ad343e;
+  border: 1px solid #ad343e;
+  color: rgb(253, 250, 216);
+}
+</style>
