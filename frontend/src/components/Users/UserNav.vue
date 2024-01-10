@@ -33,10 +33,12 @@ body {
 }
 .nav {
   height: 5rem;
+
   /* background-color: #151d25; */
   /* background-color: rgb(15, 110, 81); */
   background: #474747;
   display: flex;
+
   justify-content: space-between;
   align-items: center;
   margin: 0;

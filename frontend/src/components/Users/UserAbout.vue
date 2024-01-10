@@ -1,15 +1,19 @@
 <template>
   <div>
     <UserNav />
-    <h1>Welcome to About page</h1>
+
+    <MoreAbout />
   </div>
 </template>
 <script>
+import MoreAbout from "./HomeComponents/MoreAbout.vue";
 import UserNav from "./UserNav.vue";
+
 export default {
   name: "UserAbout",
   components: {
     UserNav,
+    MoreAbout,
   },
 };
 </script>

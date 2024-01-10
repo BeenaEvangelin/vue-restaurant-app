@@ -36,12 +36,15 @@
 </template>
 
 <script>
+import useValidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 import axios from "axios";
 export default {
   name: "UserSignUp",
 
   data() {
     return {
+      v$: useValidate(),
       username: "",
       email: "",
       password: "",
@@ -51,18 +54,28 @@ export default {
   methods: {
     async signUp() {
       let result = await axios.post("http://localhost:3000/users", {
+        v$: this.v$.$validate(),
         username: this.username,
         email: this.email,
         password: this.password,
       });
 
       console.log(result.data);
-
-      if (result.status == 201) {
+      // && result.status == 201
+      if (!this.v$.$error) {
         localStorage.setItem("user-data", JSON.stringify(result.data));
         this.$router.push({ name: "UserHome" });
+      } else {
+        alert("Form failed validation");
       }
     },
+  },
+  validations() {
+    return {
+      username: { required },
+      email: { required },
+      password: { required },
+    };
   },
   mounted() {
     let user = localStorage.getItem("user-data");
