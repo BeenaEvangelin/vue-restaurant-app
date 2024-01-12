@@ -19,6 +19,8 @@ import UserMenu from "../components/Users/UserMenu.vue";
 import UserPages from "../components/Users/UserPages.vue";
 import UserContact from "../components/Users/UserContact.vue";
 import UserBookings from "../components/Users/UserBookings.vue";
+import AllMessages from "../components/Users/AllMessages.vue";
+import AllBookings from "../components/Users/AllBookings.vue";
 
 const routes = [
   {
@@ -73,6 +75,16 @@ const routes = [
     path: "/user-bookings",
     name: "UserBookings",
     component: UserBookings,
+  },
+  {
+    path: "/user-all-messages",
+    name: "AllMessages",
+    component: AllMessages,
+  },
+  {
+    path: "/user-all-bookings",
+    name: "AllBookings",
+    component: AllBookings,
   },
 
   {

@@ -1,46 +1,59 @@
 <template>
   <div>
-    <HeaderComponent />
-    <div class="container">
-      <h1>Recent Customer views</h1>
-      <div class="all-blogs">
-        <div v-for="contact in contacts" :key="contact.id" class="blog">
-          <div class="blog-subject">{{ contact.subject }}</div>
-          <div class="blog-message">{{ contact.message }}</div>
-          <div class="blog-name">{{ contact.name }}</div>
-          <div class="blog-email">{{ contact.email }}</div>
+    <UserNav />
 
-          <!-- <div class="btns">
-            <button @click="deletecontact(contact.id)" class="mealItem-delete">
+    <div class="container">
+      <h1>Your Bookings</h1>
+      <div class="all-blogs">
+        <div v-for="booking in bookings" :key="booking.id" class="blog">
+          <div class="blog-message">
+            Thank You! Your dine in is booked for {{ booking.person }} members
+          </div>
+          <div class="blog-date">Date: {{ booking.date }}</div>
+          <div class="blog-date">At: {{ booking.time }}</div>
+          <div class="blog-phone">Your Contact: {{ booking.phone }}</div>
+
+          <div class="btns">
+            <button @click="deleteBooking(booking.id)" class="mealItem-delete">
               Delete
             </button>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
-import HeaderComponent from "./Header.vue";
+import UserNav from "./UserNav.vue";
+
 export default {
-  name: "MessagePage",
+  name: "AllBookings",
   components: {
-    HeaderComponent,
+    UserNav,
   },
   data() {
     return {
-      contacts: [],
+      name: "",
+      bookings: [],
     };
   },
   methods: {
+    async deleteBooking(id) {
+      let result = await axios.delete("http://localhost:3000/booking/" + id);
+
+      if (result.status == 200) {
+        this.loadData();
+      }
+    },
     async loadData() {
-      let result = await axios.get("http://localhost:3000/contact");
-      // console.log(result);
-      this.contacts = result.data;
+      let result = await axios.get("http://localhost:3000/booking");
+      console.log(result);
+      this.bookings = result.data;
     },
   },
-  async mounted() {
+  mounted() {
     this.loadData();
   },
 };
@@ -57,9 +70,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("../assets/profileImg.png");
+  background-image: url("../../assets/profileImg.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  height: 92vh;
 }
 .all-blogs {
   /* background-color: rgb(3, 99, 70); */
@@ -79,8 +93,8 @@ export default {
   margin: 25px;
   /* width: 22%;
   height: 100%; */
-  width: 350px;
-  height: 450px;
+  width: 300px;
+  height: 250px;
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -96,10 +110,8 @@ export default {
   transition-duration: 0.5s;
 }
 .blog-date {
-  /* color: rgb(255, 255, 197); */
-  color: #474747;
-  font-size: 15px;
-  padding: 1rem;
+  font-size: 20px;
+  color: #4e282b;
   text-align: left;
 }
 .blog-title {
@@ -116,7 +128,7 @@ export default {
 .blog-img {
   /* height: 15rem;
   width: 22rem; */
-  height: 230px;
+  height: 200px;
   width: 306px;
   border-radius: 10px 10px 0px 0px;
 }
@@ -164,12 +176,12 @@ export default {
 }
 .blog-message {
   font-size: 25px;
-  color: #867778;
+  color: #ad343e;
   text-align: left;
 }
-.blog-name {
+.blog-phone {
   font-size: 20px;
-  color: #867778;
+  color: #ad343e;
   text-align: left;
 }
 .blog-email {

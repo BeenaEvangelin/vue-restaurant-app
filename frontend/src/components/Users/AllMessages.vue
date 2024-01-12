@@ -1,8 +1,8 @@
 <template>
   <div>
-    <HeaderComponent />
+    <UserNav />
+    <h1>Your Messages</h1>
     <div class="container">
-      <h1>Recent Customer views</h1>
       <div class="all-blogs">
         <div v-for="contact in contacts" :key="contact.id" class="blog">
           <div class="blog-subject">{{ contact.subject }}</div>
@@ -10,37 +10,47 @@
           <div class="blog-name">{{ contact.name }}</div>
           <div class="blog-email">{{ contact.email }}</div>
 
-          <!-- <div class="btns">
+          <div class="btns">
             <button @click="deletecontact(contact.id)" class="mealItem-delete">
               Delete
             </button>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
-import HeaderComponent from "./Header.vue";
+import UserNav from "./UserNav.vue";
+
 export default {
-  name: "MessagePage",
+  name: "AllMessages",
   components: {
-    HeaderComponent,
+    UserNav,
   },
   data() {
     return {
+      name: "",
       contacts: [],
     };
   },
   methods: {
+    async deletecontact(id) {
+      let result = await axios.delete("http://localhost:3000/contact/" + id);
+
+      if (result.status == 200) {
+        this.loadData();
+      }
+    },
     async loadData() {
       let result = await axios.get("http://localhost:3000/contact");
-      // console.log(result);
+      console.log(result);
       this.contacts = result.data;
     },
   },
-  async mounted() {
+  mounted() {
     this.loadData();
   },
 };
@@ -54,10 +64,9 @@ export default {
 }
 .container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("../assets/profileImg.png");
+  background-image: url("../../assets/profileImg.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
