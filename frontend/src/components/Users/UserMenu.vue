@@ -14,6 +14,9 @@
           </div>
           <div class="mealItem-name">{{ meal.itemName }}</div>
           <div class="mealItem-amount">{{ meal.amount }}</div>
+          <router-link :to="`/user-menu/${meal.id}`">
+            <button class="mealItem-update">View Meal</button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -36,40 +39,23 @@ export default {
   },
   methods: {
     async loadData() {
-      // let admin = localStorage.getItem("admin-data");
-
-      // if (!admin) {
-      //   this.$router.push({ name: "PofilePage" });
-      // } else {
-      //   this.name = JSON.parse(admin).username;
-      // }
-
       let result = await axios.get("http://localhost:3000/menuItems");
       // console.log(result);
       this.allMeals = result.data;
     },
   },
-  async mounted() {
+  mounted() {
     this.loadData();
   },
 };
 </script>
 <style scoped>
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #474747;
-}
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .allMeals {
-  /* background-color: rgb(3, 99, 70); */
-  /* background-color: #474747; */
-  /* background-color: #151d25; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -82,31 +68,25 @@ export default {
 .mealItem {
   border: 1px solid #dbdfd0;
   margin: 25px;
-  /* width: 22%;
-  height: 100%; */
   width: 306px;
-  height: 350px;
+  height: 400px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  /* background-color: rgb(46, 46, 42); */
   background-color: #ffffff;
 }
 .mealItem:hover {
   box-shadow: -1px 0px 15px 1px rgb(151, 140, 140);
-
   transition-duration: 0.5s;
 }
 .mealItem-name {
-  /* color: rgb(255, 255, 197); */
   color: #474747;
   font-size: 20px;
   padding-top: 1rem;
 }
 .mealItem-amount {
-  /* color: rgb(255, 255, 197); */
   color: #ad343e;
   width: 306px;
   height: 428px;
@@ -114,18 +94,11 @@ export default {
   padding: 5px;
 }
 .mealItem-img {
-  /* height: 15rem;
-  width: 22rem; */
   height: 230px;
   width: 306px;
   border-radius: 10px 10px 0px 0px;
 }
-.btns {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 30px;
-}
+
 .mealItem-update {
   height: 3rem;
   width: 8rem;
@@ -133,28 +106,8 @@ export default {
   border: none;
   margin: 10px;
   background-color: #ad343e;
-  /* background-color: rgb(255, 137, 3); */
   font-size: 18px;
   cursor: pointer;
   color: rgb(255, 255, 255);
-}
-.mealItem-delete {
-  height: 3rem;
-  width: 8rem;
-  border-radius: 10px;
-  border: 1px solid #ad343e;
-  margin: 10px;
-  /* background-color: rgb(238, 238, 177); */
-  /* background-color: rgb(253, 250, 216); */
-  color: #ad343e;
-  background-color: #ffffff;
-  /* background-color: rgb(253, 250, 216); */
-  font-size: 18px;
-  cursor: pointer;
-  /* color: rgb(255, 137, 3); */
-}
-.logo {
-  width: 150px;
-  height: 150px;
 }
 </style>

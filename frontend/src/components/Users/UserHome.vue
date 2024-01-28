@@ -54,16 +54,13 @@ export default {
   methods: {
     async loadData() {
       let user = localStorage.getItem("user-data");
-
       if (!user) {
         this.$router.push({ name: "ProfilePage" });
+        // this.$router.push({ name: "UserLogIn" });
+        // alert("Invalid");
       } else {
         this.name = JSON.parse(user).username;
       }
-
-      //   let result = await axios.get("http://localhost:3000/menuItems");
-      //   // console.log(result);
-      //   this.allMeals = result.data;
     },
   },
   async mounted() {

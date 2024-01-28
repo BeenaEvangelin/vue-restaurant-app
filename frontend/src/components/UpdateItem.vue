@@ -6,8 +6,17 @@
 
       <div class="form">
         <label class="form-img-label">Image</label>
-        <input type="file" @change="handleImageUpload" />
+        <input
+          type="file"
+          v-show="false"
+          ref="fileInput"
+          @change="handleImageUpload"
+        />
         <img :src="meal.imageUrl" class="imagePreviewWrapper" />
+        <button class="upload-btn" @click="$refs.fileInput.click()">
+          <img src="/img/upload.197182e4.svg" class="meal-icon" /> Upload
+        </button>
+
         <label class="form-label">Meal name</label>
         <input
           type="text"
@@ -22,17 +31,17 @@
           placeholder="Enter amount"
           class="form-input"
         />
-
-        <button type="button" class="form-btn" @click="update">
-          Update Meal
-        </button>
       </div>
+      <button type="button" class="form-btn" @click="update">
+        Update Meal
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import HeaderComponent from "./Header.vue";
+import image from "../assets/default.jpg";
 import axios from "axios";
 export default {
   name: "UpdateItem",
@@ -42,7 +51,7 @@ export default {
   data() {
     return {
       meal: {
-        imageUrl: null,
+        imageUrl: image,
         itemName: "",
         amount: "",
       },
@@ -95,29 +104,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  height: 90vh;
   flex-direction: column;
 }
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8rem;
-}
-.logo {
-  width: 150px;
-  height: 150px;
-}
+
 .form {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
 }
 .form-input {
@@ -125,50 +119,52 @@ export default {
   width: 25rem;
   margin-bottom: 30px;
   border: 1px solid #474747;
-  border-radius: 40px;
+  border-radius: 10px;
   padding-left: 10px;
   font-size: 20px;
 }
 .form-label {
   font-size: 25px;
-  padding-right: 16rem;
+  /* padding-right: 16rem; */
 }
 .form-label-email {
   font-size: 25px;
-  padding-right: 19rem;
+  /* padding-right: 19rem; */
 }
 .form-btn {
   height: 3rem;
-  width: 12rem;
-  border-radius: 40px;
+  width: 26rem;
+  border-radius: 10px;
   background-color: #474747;
   border: 1px solid #474747;
   color: rgb(255, 255, 255);
   cursor: pointer;
   font-size: 20px;
 }
-.sign-in-btn {
-  margin-top: 20px;
-  font-size: 15px;
-  height: 3rem;
-  width: 12rem;
-  border-radius: 40px;
-  background-color: #ffffff;
+.upload-btn {
+  height: 55px;
+  width: 10rem;
+  margin-bottom: 30px;
   border: 1px solid #474747;
-  color: #151d25;
+  border-radius: 10px;
+  padding-left: 10px;
+  font-size: 20px;
+  background-color: white;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 .form-img-label {
   font-size: 25px;
-  padding-right: 19rem;
+  /* padding-right: 19rem; */
 }
 .imagePreviewWrapper {
   width: 250px;
   height: 250px;
-  /* display: block; */
   cursor: pointer;
-  margin: 0 auto 30px;
-  /* background-size: cover; */
-  /* background-position: center center; */
+  border-radius: 10px;
+  margin-top: 10px;
 }
 </style>

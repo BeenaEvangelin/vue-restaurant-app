@@ -80,6 +80,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   width: 1400px;
+  cursor: pointer;
 }
 
 .img {
@@ -90,25 +91,22 @@ export default {
 .heading {
   text-align: left;
   color: var(--Neutral-07, #2c2f24);
-
-  /* Headline/H3 */
   font-family: DM Sans;
   font-size: 24px;
   font-style: normal;
   margin-left: 10px;
   font-weight: 700;
-  line-height: 30px; /* 125% */
+  line-height: 30px;
   letter-spacing: -0.72px;
 }
 .content {
   color: var(--Neutral-06, #414536);
   text-align: left;
   margin-left: 10px;
-  /* Body/16px/Regular */
   font-family: DM Sans;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 150% */
+  line-height: 24px;
 }
 </style>

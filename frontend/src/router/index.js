@@ -21,6 +21,8 @@ import UserContact from "../components/Users/UserContact.vue";
 import UserBookings from "../components/Users/UserBookings.vue";
 import AllMessages from "../components/Users/AllMessages.vue";
 import AllBookings from "../components/Users/AllBookings.vue";
+import MealItem from "../components/Users/MealItem.vue";
+import BlogItem from "../components/Users/BlogItem.vue";
 
 const routes = [
   {
@@ -62,9 +64,19 @@ const routes = [
     component: UserMenu,
   },
   {
+    path: "/user-menu/:id",
+    name: "MealItem",
+    component: MealItem,
+  },
+  {
     path: "/user-pages",
     name: "UserPages",
     component: UserPages,
+  },
+  {
+    path: "/user-pages/:id",
+    name: "BlogItem",
+    component: BlogItem,
   },
   {
     path: "/user-contact",

@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <div>
-      <router-link to="/" class="nav-item">Home</router-link>
+      <router-link to="/admin" class="nav-item">Home</router-link>
       <router-link to="/add-item" class="nav-item">Add Item</router-link>
       <router-link to="/blog-page" class="nav-item">Blogs</router-link>
       <router-link to="/message-page" class="nav-item">Messages</router-link>
@@ -23,10 +23,7 @@ export default {
 };
 </script>
 
-<style>
-body {
-  margin: 0;
-}
+<style scoped>
 .nav {
   height: 5rem;
   /* background-color: #151d25; */

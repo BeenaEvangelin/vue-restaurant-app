@@ -11,87 +11,87 @@
       <label class="form-label-email">Email</label>
       <input
         type="text"
-        v-model="email"
+        v-model="formData.email"
         placeholder="Enter Email"
         class="form-input"
       />
+      <p v-if="error.email" class="error">{{ error.email }}</p>
       <label class="form-label">Password</label>
       <input
         type="password"
-        v-model="password"
+        v-model="formData.password"
         placeholder="Enter Password"
         class="form-input"
       />
+      <p v-if="error.password" class="error">{{ error.password }}</p>
       <button class="form-btn" @click="login">Login</button>
       <router-link link to="/sign-up"
         ><button class="sign-in-btn">Sign Up</button></router-link
       >
     </div>
   </div>
-  <!-- <form @submit.prevent="submit">
-    <v-text-field
-      v-model="name.value.value"
-      :counter="10"
-      :error-messages="name.errorMessage.value"
-      label="Name"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="phone.value.value"
-      :counter="7"
-      :error-messages="phone.errorMessage.value"
-      label="Phone Number"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="email.value.value"
-      :error-messages="email.errorMessage.value"
-      label="E-mail"
-    ></v-text-field>
-
-    <v-select
-      v-model="select.value.value"
-      :items="items"
-      :error-messages="select.errorMessage.value"
-      label="Select"
-    ></v-select>
-
-    <v-checkbox
-      v-model="checkbox.value.value"
-      :error-messages="checkbox.errorMessage.value"
-      value="1"
-      label="Option"
-      type="checkbox"
-    ></v-checkbox>
-
-    <v-btn class="me-4" type="submit"> submit </v-btn>
-
-    <v-btn @click="handleReset"> clear </v-btn>
-  </form> -->
 </template>
 
 <script>
+import useValidate from "@vuelidate/core";
+import { required, email, minLength } from "@vuelidate/validators";
 import axios from "axios";
 export default {
   name: "LogIn",
 
+  watch: {
+    formData: {
+      deep: true,
+      handler() {
+        this.error = {};
+        if (this.v$.$error) {
+          this.v$.$validate();
+          this.v$.$errors.forEach((error) => {
+            this.error[error.$property] = error.$message;
+          });
+        }
+      },
+    },
+  },
   data() {
     return {
-      email: "",
-      password: "",
+      v$: useValidate(),
+      formData: {
+        email: "",
+        password: "",
+      },
+      error: {
+        email: "",
+        password: "",
+      },
     };
   },
   methods: {
     async login() {
-      let result = await axios.get(
-        `http://localhost:3000/admin?email=${this.email}&password=${this.password}`
-      );
-
-      if (result.status == 200 && result.data.length > 0) {
-        localStorage.setItem("admin-data", JSON.stringify(result.data[0]));
-        this.$router.push({ name: "HomePage" });
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        let result = await axios.get(
+          `http://localhost:3000/admin?email=${this.formData.email}&password=${this.formData.password}`
+        );
+        if (result.status == 200 && result.data.length > 0) {
+          localStorage.setItem("admin-data", JSON.stringify(result.data[0]));
+          this.$router.push({ name: "HomePage" });
+        }
+      } else {
+        this.error = {};
+        this.v$.$errors.forEach((error) => {
+          this.error[error.$property] = error.$message;
+        });
       }
     },
+  },
+  validations() {
+    return {
+      formData: {
+        email: { required, email },
+        password: { required, minLength: minLength(8) },
+      },
+    };
   },
 
   mounted() {
@@ -171,5 +171,10 @@ export default {
   border: 1px solid #474747;
   color: #474747;
   cursor: pointer;
+}
+.error {
+  color: red;
+  font-size: 15px;
+  margin: 0;
 }
 </style>

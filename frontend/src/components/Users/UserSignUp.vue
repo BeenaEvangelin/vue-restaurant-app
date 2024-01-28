@@ -10,71 +10,94 @@
       <label class="form-label">Username</label>
       <input
         type="text"
-        v-model="username"
+        v-model="formData.username"
         placeholder="Enter Username"
         class="form-input"
       />
+      <p v-if="error.username" class="error">{{ error.username }}</p>
       <label class="form-label-email">Email</label>
       <input
         type="text"
-        v-model="email"
+        v-model="formData.email"
         placeholder="Enter Email"
         class="form-input"
       />
+      <p v-if="error.email" class="error">{{ error.email }}</p>
       <label class="form-label">Password</label>
       <input
         type="password"
-        v-model="password"
+        v-model="formData.password"
         placeholder="Enter Password"
         class="form-input"
       />
-      <router-link link to="/">
-        <button class="form-btn" @click="signUp">Sign Up</button></router-link
-      >
+      <p v-if="error.password" class="error">{{ error.password }}</p>
+      <button class="form-btn" @click="signUp">Sign Up</button>
     </div>
   </div>
 </template>
 
 <script>
 import useValidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, email, minLength } from "@vuelidate/validators";
 import axios from "axios";
+
 export default {
   name: "UserSignUp",
+
+  watch: {
+    formData: {
+      deep: true,
+      handler() {
+        this.error = {};
+        if (this.v$.$error) {
+          this.v$.$validate();
+          this.v$.$errors.forEach((error) => {
+            this.error[error.$property] = error.$message;
+          });
+        }
+      },
+    },
+  },
 
   data() {
     return {
       v$: useValidate(),
-      username: "",
-      email: "",
-      password: "",
+      formData: { username: "", email: "", password: "" },
+      error: {
+        username: "",
+        email: "",
+        password: "",
+      },
     };
   },
 
   methods: {
     async signUp() {
-      let result = await axios.post("http://localhost:3000/users", {
-        v$: this.v$.$validate(),
-        username: this.username,
-        email: this.email,
-        password: this.password,
-      });
+      this.v$.$validate();
 
-      console.log(result.data);
-      // && result.status == 201
       if (!this.v$.$error) {
+        let result = await axios.post("http://localhost:3000/users", {
+          username: this.formData.username,
+          email: this.formData.email,
+          password: this.formData.password,
+        });
         localStorage.setItem("user-data", JSON.stringify(result.data));
         this.$router.push({ name: "UserHome" });
       } else {
-        alert("Form failed validation");
+        this.error = {};
+        this.v$.$errors.forEach((error) => {
+          this.error[error.$property] = error.$message;
+        });
       }
     },
   },
   validations() {
     return {
-      username: { required },
-      email: { required },
-      password: { required },
+      formData: {
+        username: { required, minLength: minLength(5) },
+        email: { required, email },
+        password: { required, minLength: minLength(8) },
+      },
     };
   },
   mounted() {
@@ -96,6 +119,12 @@ export default {
   background-image: url("../../assets/profileImg.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+
+.error {
+  color: red;
+  font-size: 15px;
+  margin: 0;
 }
 .header {
   display: flex;

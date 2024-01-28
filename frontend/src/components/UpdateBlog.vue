@@ -5,9 +5,16 @@
       <h1 class="header">Update your Blog Post</h1>
       <div class="form">
         <label class="form-img-label">Image</label>
-        <input type="file" @change="handleImageUpload" />
+        <input
+          type="file"
+          v-show="false"
+          ref="fileInput"
+          @change="handleImageUpload"
+        />
         <img :src="blog.imageUrl" class="imagePreviewWrapper" />
-
+        <button class="upload-btn" @click="$refs.fileInput.click()">
+          <img src="/img/upload.197182e4.svg" class="meal-icon" /> Upload
+        </button>
         <label for="date" class="form-label-date">Date</label>
         <input type="date" id="date" v-model="blog.date" class="form-input" />
 
@@ -62,20 +69,13 @@ export default {
     async updateBlog() {
       let result = await axios.put(
         "http://localhost:3000/blogs/" + this.$route.params.id,
-        // this.blog
+
         {
           imageUrl: this.blog.imageUrl,
           date: this.blog.date,
           title: this.blog.title,
         }
       );
-      // .then((result) => {
-      //   console.log("Blog uploaded successfully:", result.data);
-      //   this.$router.push({ name: "AllBlogs" });
-      // })
-      // .catch((error) => {
-      //   console.error("Error uploading blog:", error);
-      // });
 
       if (result.status == 200) {
         this.$router.push({ name: "AllBlogs" });
@@ -107,28 +107,17 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+
 .header {
   font-size: 3rem;
   margin-bottom: 20px;
 }
-.logo {
-  width: 150px;
-  height: 150px;
-}
-.sub-title {
-  font-size: 30px;
-  margin: 40px;
-}
+
 .form {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: left;
+  text-align: left;
   flex-direction: column;
 }
 .form-input {
@@ -136,51 +125,59 @@ export default {
   width: 25rem;
   margin-bottom: 30px;
   border: 1px solid #474747;
-  border-radius: 40px;
+  border-radius: 10px;
   padding: 0px 10px;
   font-size: 20px;
 }
 .form-label-date {
   font-size: 25px;
-  padding-right: 21rem;
+  /* padding-right: 21rem; */
 }
 .form-img-label {
   font-size: 25px;
-  padding-right: 20rem;
+  /* padding-right: 20rem; */
 }
 .form-label-title {
   font-size: 25px;
-  padding-right: 21rem;
+  /* padding-right: 21rem; */
 }
 .form-btn {
   height: 3rem;
-  width: 12rem;
-  border-radius: 40px;
+  width: 422px;
+  border-radius: 10px;
   background-color: #474747;
   border: 1px solid #474747;
   color: rgb(255, 255, 255);
   cursor: pointer;
   font-size: 20px;
 }
-.sign-in-btn {
-  margin-top: 20px;
-  font-size: 15px;
-  height: 3rem;
-  width: 12rem;
-  border-radius: 40px;
-  background-color: #ffffff;
-  border: 1px solid #151d25;
-  color: #151d25;
-  cursor: pointer;
-}
+
 .imagePreviewWrapper {
-  width: 250px;
-  height: 250px;
+  width: 420px;
+  height: 350px;
   display: block;
   cursor: pointer;
-  margin: 0 auto 30px;
-  border: 1px solid rgb(83, 77, 77);
+  border-radius: 10px;
+
   background-size: cover;
   background-position: center center;
+}
+.meal-icon {
+  margin-right: 20px;
+}
+.upload-btn {
+  height: 55px;
+  width: 10rem;
+  margin-bottom: 30px;
+  border: 1px solid #474747;
+  border-radius: 10px;
+  padding-left: 10px;
+  font-size: 20px;
+  background-color: white;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

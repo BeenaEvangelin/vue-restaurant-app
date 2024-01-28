@@ -15,7 +15,9 @@
           about the overall experience. Our staff, renowned for their warmth and
           dedication, strives to make every visit an unforgettable event.
         </p>
-        <button class="btn">More About Us</button>
+        <router-link link to="/user-about">
+          <button class="btn">More About Us</button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -65,7 +67,7 @@ export default {
   line-height: 28px;
 }
 .btn {
-  display: flex;
+  /* display: flex; */
   padding: 20px 32px;
   justify-content: center;
   align-items: center;

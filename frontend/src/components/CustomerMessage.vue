@@ -9,12 +9,8 @@
           <div class="blog-message">{{ contact.message }}</div>
           <div class="blog-name">{{ contact.name }}</div>
           <div class="blog-email">{{ contact.email }}</div>
-
-          <!-- <div class="btns">
-            <button @click="deletecontact(contact.id)" class="mealItem-delete">
-              Delete
-            </button>
-          </div> -->
+          <!-- <div class="blog-date">{{ username }}</div>
+          <div class="blog-date">{{ email }}</div> -->
         </div>
       </div>
     </div>
@@ -31,6 +27,8 @@ export default {
   data() {
     return {
       contacts: [],
+      username: "",
+      email: "",
     };
   },
   methods: {
@@ -38,6 +36,15 @@ export default {
       let result = await axios.get("http://localhost:3000/contact");
       // console.log(result);
       this.contacts = result.data;
+
+      let user = localStorage.getItem("user-data");
+
+      if (!user) {
+        console.log("user not found");
+      } else {
+        this.username = JSON.parse(user).username;
+        this.email = JSON.parse(user).email;
+      }
     },
   },
   async mounted() {
@@ -46,12 +53,6 @@ export default {
 };
 </script>
 <style scoped>
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #474747;
-}
 .container {
   display: flex;
   flex-direction: column;
@@ -62,9 +63,6 @@ export default {
   background-size: 100% 100%;
 }
 .all-blogs {
-  /* background-color: rgb(3, 99, 70); */
-  /* background-color: #474747; */
-  /* background-color: #151d25; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -77,17 +75,14 @@ export default {
 .blog {
   border: 1px solid #dbdfd0;
   margin: 25px;
-  /* width: 22%;
-  height: 100%; */
   width: 350px;
   height: 450px;
   padding: 20px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
   flex-direction: column;
-  /* background-color: rgb(46, 46, 42); */
+
   background-color: #ffffff;
 }
 .blog:hover {
@@ -96,67 +91,12 @@ export default {
   transition-duration: 0.5s;
 }
 .blog-date {
-  /* color: rgb(255, 255, 197); */
   color: #474747;
   font-size: 15px;
   padding: 1rem;
   text-align: left;
 }
-.blog-title {
-  /* color: rgb(255, 255, 197); */
-  color: #ad343e;
-  width: 306px;
-  height: 428px;
-  font-size: 18px;
-  /* border: 1px solid black; */
-  width: 18rem;
-  padding-left: 15px;
-  text-align: left;
-}
-.blog-img {
-  /* height: 15rem;
-  width: 22rem; */
-  height: 230px;
-  width: 306px;
-  border-radius: 10px 10px 0px 0px;
-}
-.btns {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* padding-top: 30px; */
-}
-.mealItem-update {
-  height: 3rem;
-  width: 8rem;
-  border-radius: 10px;
-  border: none;
-  margin: 10px;
-  background-color: #ad343e;
-  /* background-color: rgb(255, 137, 3); */
-  font-size: 18px;
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-}
-.mealItem-delete {
-  height: 3rem;
-  width: 8rem;
-  border-radius: 10px;
-  border: 1px solid #ad343e;
-  margin: 10px;
-  /* background-color: rgb(238, 238, 177); */
-  /* background-color: rgb(253, 250, 216); */
-  color: #ad343e;
-  background-color: #ffffff;
-  /* background-color: rgb(253, 250, 216); */
-  font-size: 18px;
-  cursor: pointer;
-  /* color: rgb(255, 137, 3); */
-}
-.logo {
-  width: 150px;
-  height: 150px;
-}
+
 .blog-subject {
   font-size: 20px;
   color: #ad343e;
@@ -166,6 +106,7 @@ export default {
   font-size: 25px;
   color: #867778;
   text-align: left;
+  height: 300px;
 }
 .blog-name {
   font-size: 20px;
@@ -176,9 +117,5 @@ export default {
   font-size: 20px;
   color: #ad343e;
   text-align: left;
-}
-.mealItem-delete:hover {
-  background-color: #ad343e;
-  color: #ffffff;
 }
 </style>

@@ -3,11 +3,12 @@
     <UserNav />
     <div class="contact">
       <div class="contact-heading">Contact Us</div>
-      <p class="contact-content">
-        We consider all the drivers of change gives you the components you need
-        to change to create a truly happens.
-      </p>
+
       <div class="form">
+        <p class="contact-content">
+          We consider all the drivers of change gives you the components you
+          need to change to create a truly happens.
+        </p>
         <div class="form-name">
           <div class="form-enteries">
             <label class="form-label">Name</label>
@@ -133,8 +134,8 @@ export default {
 }
 .form {
   /* border: 1px solid red; */
-  height: 50vh;
-  width: 700px;
+  height: 60vh;
+  width: 800px;
   display: inline-flex;
   padding: 40px;
   margin-bottom: 2rem;
@@ -202,6 +203,7 @@ export default {
   align-items: center;
   gap: 10px;
   align-self: stretch;
+  cursor: pointer;
 }
 .btnMessage {
   border-radius: 118px;
@@ -216,7 +218,7 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 10px;
-
+  cursor: pointer;
   text-decoration: none;
 }
 </style>

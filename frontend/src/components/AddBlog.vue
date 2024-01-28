@@ -5,9 +5,16 @@
       <h1 class="header">Create your Blog Post</h1>
       <div class="form">
         <label class="form-img-label">Image</label>
-        <input type="file" @change="handleImageUpload" />
+        <input
+          v-show="false"
+          ref="fileInput"
+          type="file"
+          @change="handleImageUpload"
+        />
         <img :src="blog.imageUrl" class="imagePreviewWrapper" />
-
+        <button class="upload-btn" @click="$refs.fileInput.click()">
+          <img src="/img/upload.197182e4.svg" class="meal-icon" /> Upload
+        </button>
         <label for="date" class="form-label-date">Date</label>
         <input type="date" id="date" v-model="blog.date" class="form-input" />
 
@@ -30,6 +37,7 @@
 <script>
 import axios from "axios";
 import HeaderComponent from "./Header.vue";
+import image from "../assets/default.jpg";
 
 export default {
   name: "AddBlog",
@@ -39,7 +47,7 @@ export default {
   data() {
     return {
       blog: {
-        imageUrl: null,
+        imageUrl: image,
         date: "",
         title: "",
       },
@@ -124,35 +132,37 @@ export default {
 }
 .form {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: left;
   flex-direction: column;
+  /* border: 1px solid black; */
+  text-align: left;
 }
 .form-input {
   height: 50px;
   width: 25rem;
   margin-bottom: 30px;
   border: 1px solid #474747;
-  border-radius: 40px;
+  border-radius: 10px;
   padding: 0px 10px;
   font-size: 20px;
 }
 .form-label-date {
   font-size: 25px;
-  padding-right: 21rem;
+  /* padding-right: 21rem; */
 }
 .form-img-label {
   font-size: 25px;
-  padding-right: 20rem;
+  margin-bottom: 5px;
 }
 .form-label-title {
   font-size: 25px;
-  padding-right: 21rem;
+  /* padding-right: 21rem; */
 }
 .form-btn {
   height: 3rem;
-  width: 12rem;
-  border-radius: 40px;
+  width: 422px;
+  border-radius: 10px;
   background-color: #474747;
   border: 1px solid #474747;
   color: rgb(255, 255, 255);
@@ -171,13 +181,31 @@ export default {
   cursor: pointer;
 }
 .imagePreviewWrapper {
-  width: 250px;
-  height: 250px;
+  width: 420px;
+  height: 350px;
   display: block;
   cursor: pointer;
-  margin: 0 auto 30px;
+
   border: 1px solid rgb(83, 77, 77);
   background-size: cover;
   background-position: center center;
+}
+.meal-icon {
+  margin-right: 10px;
+}
+.upload-btn {
+  height: 55px;
+  width: 10rem;
+  margin-bottom: 30px;
+  border: 1px solid #474747;
+  border-radius: 10px;
+  padding-left: 10px;
+  font-size: 20px;
+  background-color: white;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 </style>

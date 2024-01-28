@@ -1,16 +1,27 @@
 <template>
   <div>
     <HeaderComponent />
+
     <div class="add-item">
       <h1 class="header">Add your meals here</h1>
       <div class="form">
         <label class="form-img-label">Image</label>
-        <input type="file" @change="handleImageUpload" />
-        <img :src="meal.imageUrl" class="imagePreviewWrapper" />
+        <input
+          v-show="false"
+          type="file"
+          ref="fileInput"
+          @change="handleImageUpload"
+          class="form-input"
+        />
 
+        <img :src="meal.imageUrl" class="imagePreviewWrapper" />
+        <button class="upload-btn" @click="$refs.fileInput.click()">
+          <img :src="meal.upload" class="meal-icon" /> Upload
+        </button>
         <label class="form-label">Meal name</label>
         <input
           type="text"
+          :src="meal.upload"
           v-model="meal.itemName"
           placeholder="Enter meal item"
           class="form-input"
@@ -22,11 +33,8 @@
           placeholder="Enter amount"
           class="form-input"
         />
-
-        <button type="button" class="form-btn" @click="addItem">
-          Add Meal
-        </button>
       </div>
+      <button type="button" class="form-btn" @click="addItem">Add Meal</button>
     </div>
   </div>
 </template>
@@ -34,6 +42,8 @@
 <script>
 import axios from "axios";
 import HeaderComponent from "./Header.vue";
+import image from "../assets/default.jpg";
+import uploadFile from "../assets/upload.svg";
 
 export default {
   name: "AddItem",
@@ -43,9 +53,10 @@ export default {
   data() {
     return {
       meal: {
-        imageUrl: null,
+        imageUrl: image,
         itemName: "",
         amount: "Rs.",
+        upload: uploadFile,
       },
     };
   },
@@ -65,15 +76,7 @@ export default {
     },
     async addItem() {
       await axios
-        .post(
-          "http://localhost:3000/menuItems",
-          this.meal
-          // {
-          //   image: this.meal.image,
-          //   itemName: this.meal.itemName,
-          //   amount: this.meal.amount,
-          // }
-        )
+        .post("http://localhost:3000/menuItems", this.meal)
         .then((result) => {
           console.log("Meal uploaded successfully:", result.data);
           this.$router.push({ name: "HomePage" });
@@ -81,10 +84,6 @@ export default {
         .catch((error) => {
           console.error("Error uploading meal:", error);
         });
-
-      // if (result.status == 201) {
-      //   this.$router.push({ name: "HomePage" });
-      // }
     },
   },
 
@@ -108,28 +107,16 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+
 .header {
-  font-size: 3rem;
+  font-size: 45px;
   margin-bottom: 20px;
 }
-.logo {
-  width: 150px;
-  height: 150px;
-}
-.sub-title {
-  font-size: 30px;
-  margin: 40px;
-}
+
 .form {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
 }
 .form-input {
@@ -137,51 +124,73 @@ export default {
   width: 25rem;
   margin-bottom: 30px;
   border: 1px solid #474747;
-  border-radius: 40px;
+  border-radius: 10px;
   padding-left: 10px;
   font-size: 20px;
+  background-color: white;
 }
 .form-label {
   font-size: 25px;
-  padding-right: 16rem;
+  /* padding-right: 16rem; */
 }
 .form-img-label {
   font-size: 25px;
-  padding-right: 19rem;
+  margin-bottom: 5px;
+  /* padding-right: 19rem; */
 }
 .form-label-amt {
   font-size: 25px;
-  padding-right: 18rem;
+  /* padding-right: 18rem; */
 }
 .form-btn {
-  height: 3rem;
-  width: 12rem;
-  border-radius: 40px;
+  height: 50px;
+  width: 26rem;
+  /* height: 4rem;
+  width: 12rem; */
+  border-radius: 10px;
   background-color: #474747;
   border: 1px solid #474747;
   color: rgb(255, 255, 255);
   cursor: pointer;
   font-size: 20px;
 }
-.sign-in-btn {
-  margin-top: 20px;
-  font-size: 15px;
-  height: 3rem;
-  width: 12rem;
-  border-radius: 40px;
-  background-color: #ffffff;
-  border: 1px solid #151d25;
-  color: #151d25;
+.upload-btn {
+  height: 55px;
+  width: 10rem;
+  margin-bottom: 30px;
+  border: 1px solid #474747;
+  border-radius: 10px;
+  padding-left: 10px;
+  font-size: 20px;
+  background-color: white;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 .imagePreviewWrapper {
-  width: 250px;
-  height: 250px;
+  width: 400px;
+  height: 300px;
   display: block;
   cursor: pointer;
-  margin: 0 auto 30px;
-  border: 1px solid rgb(83, 77, 77);
   background-size: cover;
   background-position: center center;
+  border-radius: 15px;
+  /* background-color: white; */
+}
+.hide-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+.meal-icon {
+  margin-right: 10px;
 }
 </style>

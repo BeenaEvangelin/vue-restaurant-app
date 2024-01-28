@@ -3,12 +3,13 @@
     <UserNav />
     <div class="container">
       <h1 class="contact-heading">Book A Table</h1>
-      <p class="contact-content">
-        We consider all the drivers of change gives you the components you need
-        to change to create a truly happens.
-      </p>
+
       <div class="booking">
         <div class="form">
+          <p class="contact-content">
+            We consider all the drivers of change gives you the components you
+            need to change to create a truly happens.
+          </p>
           <div class="form-name">
             <div class="form-enteries">
               <label class="form-label">Date</label>
@@ -69,16 +70,7 @@ export default {
   methods: {
     async addBooking() {
       await axios
-        .post(
-          "http://localhost:3000/booking",
-          this.booking
-          // {
-          //   name: this.contact.name,
-          //   email: this.contact.email,
-          //   subject: this.contact.subject,
-          //   message: this.contact.message,
-          // }
-        )
+        .post("http://localhost:3000/booking", this.booking)
         .then((result) => {
           console.log("Booking made successfully:", result.data);
           this.$router.push({ name: "AllBookings" });
@@ -96,47 +88,40 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 body {
   margin: 0;
 }
 
 .booking {
-  height: 50vh;
+  height: 60vh;
   width: 100%;
-  /* border: 1px solid black; */
   display: flex;
   flex-direction: column;
-  /* background-color: rgb(240, 238, 224); */
   justify-content: center;
   align-items: center;
 }
 .contact-heading {
   color: var(--Neutral-07, #2c2f24);
   text-align: center;
-
-  /* Headline/H1 */
   font-family: Playfair Display;
   font-size: 60px;
   font-style: normal;
   font-weight: 400;
-  line-height: 96px; /* 96% */
+  line-height: 96px;
 }
 .contact-content {
   color: var(--Neutral-06, #495460);
   text-align: center;
-
-  /* Body/18px/Regular */
   font-family: DM Sans;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; /* 155.556% */
+  line-height: 28px;
 }
 .form {
-  /* border: 1px solid red; */
-  height: 30vh;
-  width: 700px;
+  height: 100vh;
+  width: 800px;
   display: inline-flex;
   padding: 40px;
   margin-bottom: 2rem;
@@ -145,8 +130,6 @@ body {
   gap: 10px;
   border-radius: 16px;
   background: var(--Neutral-01, #fff);
-
-  /* 2 */
   box-shadow: 0px 2.979px 59.574px 0px rgba(0, 0, 0, 0.08);
 }
 .form-name {
@@ -169,29 +152,16 @@ body {
 }
 .form-input {
   display: flex;
-  height: 60px;
   padding: 0px 24px;
   align-items: center;
-  /* gap: 10px; */
   align-self: stretch;
-  border-radius: 72px;
+  border-radius: 30px;
+  height: 50px;
   border: 1px solid var(--Neutral-03, #dbdfd0);
   background: var(--Neutral-01, #fff);
   font-size: 20px;
 }
-.form-input-message {
-  display: flex;
-  justify-content: flex-start;
-  align-self: stretch;
-  font-size: 20px;
-  height: 156px;
-  padding: 24px;
-  gap: 10px;
-  text-align: left;
-  border-radius: 16px;
-  border: 1px solid var(--Neutral-03, #dbdfd0);
-  background: var(--Neutral-01, #fff);
-}
+
 .btn {
   border-radius: 118px;
   background: #ad343e;
@@ -204,6 +174,8 @@ body {
   align-items: center;
   gap: 10px;
   align-self: stretch;
+  margin-top: 2rem;
+  cursor: pointer;
 }
 .btnMessage {
   border-radius: 118px;
@@ -212,13 +184,12 @@ body {
   font-size: 20px;
   color: white;
   display: flex;
-  /* padding: 20px 32px; */
   height: 3rem;
   width: 12rem;
   justify-content: center;
   align-items: center;
   gap: 10px;
-
   text-decoration: none;
+  cursor: pointer;
 }
 </style>

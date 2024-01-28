@@ -10,31 +10,35 @@
       <label class="form-label">Username</label>
       <input
         type="text"
-        v-model="username"
+        v-model="formData.username"
         placeholder="Enter Username"
         class="form-input"
       />
+      <p v-if="error.username" class="error">{{ error.username }}</p>
       <label class="form-label-email">Email</label>
       <input
         type="text"
-        v-model="email"
+        v-model="formData.email"
         placeholder="Enter Email"
         class="form-input"
       />
+      <p v-if="error.email" class="error">{{ error.email }}</p>
       <label class="form-label-id">Admin ID</label>
       <input
         type="text"
-        v-model="adminId"
+        v-model="formData.adminId"
         placeholder="Enter your ID"
         class="form-input"
       />
+      <p v-if="error.adminId" class="error">{{ error.adminId }}</p>
       <label class="form-label">Password</label>
       <input
         type="password"
-        v-model="password"
+        v-model="formData.password"
         placeholder="Enter Password"
         class="form-input"
       />
+      <p v-if="error.password" class="error">{{ error.password }}</p>
       <button class="form-btn" @click="signUp">Sign Up</button>
     </div>
   </div>
@@ -42,38 +46,67 @@
 
 <script>
 import axios from "axios";
+import useValidate from "@vuelidate/core";
+import { required, email, minLength } from "@vuelidate/validators";
 export default {
   name: "SignUp",
 
+  watch: {
+    formData: {
+      deep: true,
+      handler() {
+        this.error = {};
+        if (this.v$.$error) {
+          this.v$.$validate();
+          this.v$.$errors.forEach((error) => {
+            this.error[error.$property] = error.$message;
+          });
+        }
+      },
+    },
+  },
+
   data() {
     return {
-      username: "",
-      email: "",
-      adminId: "",
-      password: "",
+      v$: useValidate(),
+      formData: { username: "", email: "", adminId: "", password: "" },
+      error: { username: "", email: "", adminId: "", password: "" },
     };
   },
 
   methods: {
     async signUp() {
-      let result = await axios.post("http://localhost:3000/admin", {
-        username: this.username,
-        email: this.email,
-        adminId: this.adminId,
-        password: this.password,
-      });
+      this.v$.$validate();
 
-      console.log(result.data);
-
-      if (result.status == 201) {
+      if (!this.v$.$error) {
+        let result = await axios.post("http://localhost:3000/admin", {
+          username: this.formData.username,
+          email: this.formData.email,
+          adminId: this.formData.adminId,
+          password: this.formData.password,
+        });
         localStorage.setItem("admin-data", JSON.stringify(result.data));
         this.$router.push({ name: "HomePage" });
-      }
+        console.log(result.data);
+      } else {
+        this.error = {};
 
-      // else {
-      //   this.$router.push({ name: "SignUp" });
-      // }
+        this.v$.$errors.forEach((error) => {
+          this.error[error.$property] = error.$message;
+        });
+      }
     },
+  },
+
+  validations() {
+    return {
+      formData: {
+        username: { required, minLength: minLength(5) },
+        adminId: { required, minLength: minLength(5) },
+        email: { required, email },
+        password: { required, minLength: minLength(8) },
+      },
+    };
   },
   mounted() {
     let admin = localStorage.getItem("admin-data");
@@ -141,5 +174,10 @@ export default {
   color: rgb(255, 255, 255);
   font-size: 20px;
   cursor: pointer;
+}
+.error {
+  color: red;
+  font-size: 15px;
+  margin: 0;
 }
 </style>

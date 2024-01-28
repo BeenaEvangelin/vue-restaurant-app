@@ -10,7 +10,7 @@
         <button class="nav-booking">Book a Table</button></router-link
       >
     </div>
-
+    <button @click="logout" class="nav-cart">Cart</button>
     <button @click="logout" class="nav-logout">Logout</button>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 body {
   margin: 0;
 }
@@ -61,6 +61,18 @@ body {
   background-color: rgb(253, 250, 216);
   cursor: pointer;
   font-size: 17px;
+}
+.nav-cart {
+  height: 3rem;
+  width: 6rem;
+  border-radius: 40px;
+  border: 1px solid #ad343e;
+  color: #474747;
+  background-color: #ad343e;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 60rem;
+  color: white;
 }
 .nav-logout:hover {
   background: #ad343e;

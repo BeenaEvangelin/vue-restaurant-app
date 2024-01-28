@@ -60,7 +60,6 @@ export default {
 </script>
 <style scoped>
 .views {
-  /* border: 1px solid black; */
   height: 100vh;
   width: 100%;
   display: flex;
@@ -77,26 +76,15 @@ export default {
   font-weight: 500;
   line-height: 60.5px;
 }
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-.services {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-}
+
 .title {
   color: #ad343e;
   text-align: left;
-  /* Headline/H3 */
   font-family: DM Sans;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  line-height: 30px; /* 125% */
+  line-height: 30px;
   letter-spacing: -0.72px;
 }
 .all-cards {
@@ -104,10 +92,8 @@ export default {
   justify-content: center;
   align-items: center;
   width: 1600px;
-  /* border: 1px solid black; */
 }
 .card {
-  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -134,13 +120,11 @@ export default {
 .content {
   text-align: left;
   color: var(--Neutral-06, #414536);
-
-  /* Body/18px/Regular */
   font-family: DM Sans;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; /* 155.556% */
+  line-height: 28px;
 }
 .info {
   display: flex;
@@ -149,12 +133,10 @@ export default {
   justify-content: flex-start;
   text-align: left;
   color: var(--Neutral-07, #2c2f24);
-
-  /* Body/16px/Bold */
   font-family: DM Sans;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 24px; /* 150% */
+  line-height: 24px;
 }
 </style>
